@@ -1,0 +1,27 @@
+{
+    "balances": {
+        "1234": 23.43,
+        "5678": 12.34,
+        "9012": 0
+    },
+    "campaigns": {
+        "179": {
+            "name": "Organic Tomatoes",
+            "description": "Want to grow cherry tomatoes organically",
+            "funds_needed": 15,
+            "dead_line": 1630513016,
+            "creator_address": "CREATOR14543456",
+            "program_address": "PROG32346563432",
+            "id": 179
+        },
+        "9337": {
+            "name": "Organic Avacados",
+            "description": "Want to grow mexican avadoes organically",
+            "funds_needed": 20,
+            "dead_line": 1630511968,
+            "creator_address": "CREATOR1123456",
+            "program_address": "PROG3456789832",
+            "id": 9337
+        }
+    }
+}
