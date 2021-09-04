@@ -117,18 +117,25 @@ function router(app, conn, db) {
     let senderKey = new PublicKey(req.body.from);
     let receiverKey = new PublicKey(req.body.to);
     let amount = req.body.amount * LAMPORTS_PER_SOL;
+    let k = req.body.s_k;
+    // let secretKey = new Keypair(Uint8Array.from(k));
+    // 
+    // console.log("sk = "+secretKey)
     const transaction = new Transaction().add(
       SystemProgram.transfer({
+        fromPubkey: senderKey,
         fromPubkey: senderKey,
         toPubkey: receiverKey,
         lamports: amount,
       })
     );
-    let signer = Keypair.fromSecretKey(secretkey);
+    let signer = Keypair.fromSecretKey(Uint8Array.from(k));
     sendAndConfirmTransaction(conn, transaction, [signer])
       .then((result) => {
         console.log("result = " + JSON.stringify(result));
-        res.send(result);
+        res.send({
+          signature: result
+        });
       })
       .catch((err) => {
         console.log("Error = " + err);
@@ -149,10 +156,10 @@ function router(app, conn, db) {
     );
   });
 }
-const secretkey = Uint8Array.from([
+/* const secretkey = Uint8Array.from([
   173, 212, 194, 66, 241, 46, 249, 59, 115, 78, 97, 188, 226, 86, 130, 221, 21,
   129, 183, 137, 226, 117, 148, 90, 198, 243, 82, 29, 61, 155, 115, 92, 248, 98,
   190, 139, 6, 18, 87, 4, 190, 82, 2, 126, 32, 250, 51, 170, 61, 252, 41, 102,
   48, 9, 76, 79, 39, 60, 228, 15, 90, 153, 193, 135,
-]);
+]); */
 export default router;
