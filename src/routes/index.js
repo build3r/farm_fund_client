@@ -75,24 +75,23 @@ function router(app, conn, db) {
 
 /*----------------------------------------------------------------------------------------------------------*/
 
-  app.get("/say", function (req, res) {
-    let msg = req.query.msg;
-
+  app.get("/exchangeToken", function (req, res) {
+    // let msg = req.query.msg;
+    //Farmfund Token exchange program
     let programId = new PublicKey(
       "EtDA8pV7D3dQfLTgxB8hFfgg2zqUJWvpu1of1E4XcALH"
     );
-    let pubKey = new PublicKey("HibSTqXcPS78yyGquHrPE7YBXpZU2E73m4yrQ4wB2LmU");
-    let receiver = new PublicKey(
-      "DR1VXW1xBVuTjYJpwCxYficSwvsJkhbztVDPmmi2YxXx"
-    );
+    let senderKey = new PublicKey(req.body.from);
+    let receiverKey = new PublicKey(req.body.to);
+    let amount = req.body.amount * LAMPORTS_PER_SOL;
 
     const instruction = new TransactionInstruction({
       keys: [
-        { pubkey: pubKey, isSigner: true, isWritable: true },
-        { pubkey: receiver, isSigner: false, isWritable: true },
+        { pubkey: senderKey, isSigner: true, isWritable: true },
+        { pubkey: receiverKey, isSigner: false, isWritable: true },
       ],
       programId,
-      data: Buffer.from(msg), // All instructions are hellos
+      data: Buffer.from(amount), // All instructions are hellos
     });
     const transaction = new Transaction().add(instruction);
     // const transaction = new Transaction().add(SystemProgram.transfer({
